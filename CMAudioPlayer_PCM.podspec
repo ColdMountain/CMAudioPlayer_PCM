@@ -24,7 +24,10 @@ Pod::Spec.new do |spec|
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = "基于AudioUnit播放PCM数据流!"
+  spec.description  = <<-DESC
+                    基于AudioUnit播放PCM数据流!
+                   DESC
+                   
 
   spec.homepage     = "https://github.com/ColdMountain/CMAudioPlayer_PCM.git"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -116,7 +119,7 @@ Pod::Spec.new do |spec|
   #
 
   # spec.framework  = "SomeFramework"
-  # spec.frameworks = "SomeFramework", "AnotherFramework"
+  spec.frameworks = "Foundation", "AudioToolbox"
 
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
