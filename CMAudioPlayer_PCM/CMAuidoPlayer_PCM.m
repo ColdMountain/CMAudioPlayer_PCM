@@ -91,7 +91,7 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
                          sizeof(pcmStreamDesc));
     
     AURenderCallbackStruct callBackStruct;
-    callBackStruct.inputProc       = CMAURenderCallback;
+    callBackStruct.inputProc       = CMAURenderCallback1;
     callBackStruct.inputProcRefCon = (__bridge void * _Nullable)(self);
     AudioUnitSetProperty(_outAudioUinit,
                          kAudioUnitProperty_SetRenderCallback,
@@ -101,12 +101,12 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
                          sizeof(callBackStruct));
 }
 
-OSStatus  CMAURenderCallback(void *                      inRefCon,
-                             AudioUnitRenderActionFlags* ioActionFlags,
-                             const AudioTimeStamp*       inTimeStamp,
-                             UInt32                      inBusNumber,
-                             UInt32                      inNumberFrames,
-                             AudioBufferList*            __nullable ioData){
+OSStatus  CMAURenderCallback1(void *                      inRefCon,
+                              AudioUnitRenderActionFlags* ioActionFlags,
+                              const AudioTimeStamp*       inTimeStamp,
+                              UInt32                      inBusNumber,
+                              UInt32                      inNumberFrames,
+                              AudioBufferList*            __nullable ioData){
     CMAuidoPlayer_PCM * self = (__bridge CMAuidoPlayer_PCM *)(inRefCon);
     @synchronized (self) {
         if (self->_paketsArray.count > self->_readedPacketIndex) {
