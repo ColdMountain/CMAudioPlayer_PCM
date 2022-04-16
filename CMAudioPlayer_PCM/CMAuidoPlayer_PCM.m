@@ -31,8 +31,8 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
     description.mFormatID         = kAudioFormatLinearPCM;
     description.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsNonInterleaved;
     description.mFramesPerPacket  = 1;// 每帧只有1个packet
-    description.mChannelsPerFrame = player.channelsPerFrame;// 声道数
-    description.mBitsPerChannel   = player.bitsPerChannel;// 位深
+    description.mChannelsPerFrame = 1;// 声道数
+    description.mBitsPerChannel   = 16;// 位深
 //    description.mBytesPerFrame    = 2; // 每帧只有2个byte 声道*位深*Packet数
 //    description.mBytesPerPacket   = 2; // 每个Packet只有2个byte
     description.mBytesPerFrame    = (description.mBitsPerChannel / 8) * description.mChannelsPerFrame;
@@ -42,7 +42,7 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
 
 #pragma mark - 首先进行初始化操作
 
-- (instancetype)initWithAudioUnitPlayerSampleRate:(CMAudioSampleRate)sampleRate{
+- (instancetype)initWithAudioUnitPlayerSampleRate:(CMAudioPlayerSampleRate)sampleRate{
     if (self = [super init]) {
         self.audioRate = sampleRate;
         _readedPacketIndex = 0;

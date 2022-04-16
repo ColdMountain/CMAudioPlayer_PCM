@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "CMAudioPlayer_PCM"
-  spec.version      = "1.0.3"
+  spec.version      = "1.0.4"
   spec.summary      = "基于AudioUnit播放PCM数据流"
 
   # This description is used to generate tags and improve search results.
