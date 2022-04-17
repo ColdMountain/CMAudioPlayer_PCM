@@ -20,9 +20,11 @@ typedef enum {
 
 - (instancetype)initWithAudioUnitPlayerSampleRate:(CMAudioPlayerSampleRate)sampleRate;
 
-- (void)kl_stop;
+- (void)cm_stop;
 
-- (void)kl_play;
+- (void)cm_play;
+
+- (void)cm_close;
 
 - (void)kl_playAudioWithData:(char*)pBuf andLength:(ssize_t)length;
 

@@ -93,7 +93,7 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
     callBackStruct.inputProcRefCon = (__bridge void * _Nullable)(self);
     AudioUnitSetProperty(_outAudioUinit,
                          kAudioUnitProperty_SetRenderCallback,
-                         kAudioUnitScope_Output,
+                         kAudioUnitScope_Input,
                          0,
                          &callBackStruct,
                          sizeof(callBackStruct));
@@ -107,21 +107,21 @@ OSStatus  CMAURenderCallback1(void *                      inRefCon,
                               AudioBufferList*            __nullable ioData){
     CMAuidoPlayer_PCM * self = (__bridge CMAuidoPlayer_PCM *)(inRefCon);
     @synchronized (self) {
-        if (self->_paketsArray.count > self->_readedPacketIndex) {
-            @autoreleasepool {
-                NSData *packet = self->_paketsArray[self->_readedPacketIndex];
-                ioData->mBuffers[0].mDataByteSize = (UInt32)packet.length;
-                ioData->mBuffers[0].mData = (char*)packet.bytes;
-//                NSLog(@"out size: %u", (unsigned int)ioData->mBuffers[0].mDataByteSize);
-//                NSLog(@"out data: %s", ioData->mBuffers[0].mData);
-                self->_readedPacketIndex++;
-            }
+        @autoreleasepool {
+            NSData *packet = self->_paketsArray[self->_readedPacketIndex];
+            ioData->mBuffers[0].mDataByteSize = (UInt32)packet.length;
+            ioData->mBuffers[0].mData = (char*)packet.bytes;
+            self->_readedPacketIndex++;
+//            NSLog(@"当时数据个数:%ld=====渲染数据个数:%ld",self->_paketsArray.count, self->_readedPacketIndex);
+//            NSLog(@"out size: %u", (unsigned int)ioData->mBuffers[0].mDataByteSize);
+//            NSLog(@"out data: %s", ioData->mBuffers[0].mData);
         }
         if (ioData->mBuffers[0].mDataByteSize <= 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self  kl_stop];
+                [self cm_stop];
             });
         }
+        
     }
     
     return noErr;
@@ -140,11 +140,24 @@ OSStatus  CMAURenderCallback1(void *                      inRefCon,
     assert(status == noErr);
 }
 
-- (void)kl_stop{
+- (void)cm_stop{
     OSStatus status = AudioOutputUnitStop(_outAudioUinit);
     assert(status == noErr);
+    [self.paketsArray removeAllObjects];
+    self->_readedPacketIndex = 0;
+    if (status == noErr) {
+        NSLog(@"停止播放器");
+    }
 }
 
+- (void)cm_close{
+    OSStatus status = AudioUnitUninitialize(_outAudioUinit);
+    status = AudioComponentInstanceDispose(_outAudioUinit);
+    assert(status == noErr);
+    if (status == noErr) {
+        NSLog(@"关闭播放器");
+    }
+}
 - (void)dealloc{
     NSLog(@"AudioPlayer销毁");
 }
