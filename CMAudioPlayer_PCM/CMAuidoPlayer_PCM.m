@@ -33,8 +33,6 @@ static AudioStreamBasicDescription PCMStreamDescription(void*inData)
     description.mFramesPerPacket  = 1;// 每帧只有1个packet
     description.mChannelsPerFrame = 1;// 声道数
     description.mBitsPerChannel   = 16;// 位深
-//    description.mBytesPerFrame    = 2; // 每帧只有2个byte 声道*位深*Packet数
-//    description.mBytesPerPacket   = 2; // 每个Packet只有2个byte
     description.mBytesPerFrame    = (description.mBitsPerChannel / 8) * description.mChannelsPerFrame;
     description.mBytesPerPacket   = description.mBytesPerFrame;
     return description;

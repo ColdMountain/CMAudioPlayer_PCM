@@ -27,7 +27,5 @@ typedef enum {
 - (void)kl_playAudioWithData:(char*)pBuf andLength:(ssize_t)length;
 
 @property (nonatomic, assign) CMAudioPlayerSampleRate audioRate;
-@property (nonatomic, assign) int channelsPerFrame;//声道数
-@property (nonatomic, assign) int bitsPerChannel;//位深
 @end
 
