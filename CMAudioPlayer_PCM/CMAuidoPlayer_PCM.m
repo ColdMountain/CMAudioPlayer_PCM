@@ -139,7 +139,6 @@ OSStatus  CMAURenderCallback1(void *                      inRefCon,
 
 - (void)kl_play{
     OSStatus status = AudioOutputUnitStart(_outAudioUinit);
-//    NSLog(@"status = %d",(int)status);
     assert(status == noErr);
 }
 
